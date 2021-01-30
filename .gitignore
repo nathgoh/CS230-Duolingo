@@ -1,3 +1,9 @@
+# Data sets
+data_en_es/
+data_es_en/
+data_fr_en/
+
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
