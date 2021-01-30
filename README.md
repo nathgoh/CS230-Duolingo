@@ -31,4 +31,4 @@ In order to run the baseline model and evaluate your predictions, perform the fo
     to print a variety of metrics for the baseline predictions to the screen.
  
 ## NOTE:
-Data files are stored using Git LFS, make sure you have that downloaded on your machine (https://git-lfs.github.com/).
+Data obtained from http://sharedtask.duolingo.com/2018.html
