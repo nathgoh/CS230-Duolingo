@@ -29,3 +29,6 @@ In order to run the baseline model and evaluate your predictions, perform the fo
                    --key path/to/dev_or_test/labels.dev.key
     ```
     to print a variety of metrics for the baseline predictions to the screen.
+ 
+## NOTE:
+Data files are stored using Git LFS, make sure you have that downloaded or your machine.
