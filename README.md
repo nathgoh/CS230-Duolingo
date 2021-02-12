@@ -1,17 +1,17 @@
-# Duolingo SLAM Shared Task
+# CS230: Duolingo SLAM Shared Task
+Developed a deep learning model predict students’ learning performance based on their past learning data. 
 
-This archive contains a baseline model and evaluation script for Duolingo's 2018 Shared Task on Second Language Acquisition Modeling (SLAM). 
-The model is L2-regularized logistic regression, trained with SGD weighted by frequency.   
+Baseline model and evaluation script is provided from the archive for Duolingo's 2018 Shared Task on Second Language Acquisition Modeling (SLAM). The model is L2-regularized logistic regression, trained with SGD weighted by frequency.   
 
 ## Setup
 
 This baseline model is written in Python. It depends on the `future` library for compatibility with both Python 2 and 3,
 which on many machines may be obtained by executing `pip install future` in a console.
 
-In order to run the baseline model and evaluate your predictions, perform the following:
+In order to run the any model and evaluate your predictions, perform the following:
 
 * Download and extract the contents of the file to a local directory.
-* To train the baseline model: 
+* To train for example, the baseline model: 
   * Open a console and `cd` into the directory where `baseline.py` is stored
   * Execute: 
     
