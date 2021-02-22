@@ -26,6 +26,9 @@ from random import shuffle, uniform
 from future.builtins import range
 from future.utils import iteritems
 
+import numpy as np
+import tensorflow as tf
+
 # Sigma is the L2 prior variance, regularizing the baseline model. Smaller sigma means more regularization.
 _DEFAULT_SIGMA = 20.0
 
@@ -35,8 +38,8 @@ _DEFAULT_ETA = 0.1
 
 def main():
     """
-    Executes the baseline model. This loads the training data, training labels, and dev data, then trains a logistic
-    regression model, then dumps predictions to the specified file.
+    Executes the lstm model. This loads the training data, training labels, and dev data, then trains a
+    lstm model, then dumps predictions to the specified file.
 
     Modify the middle of this code, between the two commented blocks, to create your own model.
     """
