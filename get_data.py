@@ -154,17 +154,17 @@ class InstanceData(object):
 
 def extract_features(data, labels = None):
     """
-    Do a mapping of each distinct feature to an unique index in a dictionaru
-    for vectorization.
-
-    Vectorization will transform the one-hot dictionary data into vectors according 
-    to the given mapping.
+    Do a mapping of each distinct feature to an unique index in a dictionary.
+    The mapping for each feature is then used to create an embedding matrix for 
+    each said distinct feature. Each individual embedding matrix will be concatenated
+    together to create one large embedding matrix.
 
     Parameters:
         data: a list of InstanceData objects from that data type and track.
         labels (optional): if using training data, a dict of instance_id:label pairs.
     Return:
-        feature_matrix: a list of one-hot vectors (essentially a matrix)
+        feature_matrix: concatenated embbeding matrix of all the distinct features 
+        that will be used as input for the LSTM.
     """
     feature_dict = dict()
     count = 0
@@ -175,4 +175,5 @@ def extract_features(data, labels = None):
                count += 1
 
     print("Total features: {}".format(len(feature_dict)))
+    print(feature_dict)
     
