@@ -1,4 +1,4 @@
-import copy
+import numpy as np
 
 def load_data(filename):
     """
@@ -83,7 +83,7 @@ def load_data(filename):
                 if training:
                     label = float(line[6])
                     labels[instance_properties['instance_id']] = label
-                data.append(copy.deepcopy(instance_properties))
+                data.append(InstanceData(instance_properties=instance_properties))
 
         print('Done loading ' + str(len(data)) + ' instances across ' + str(num_exercises) +
               ' exercises.\n')
@@ -93,61 +93,86 @@ def load_data(filename):
     else:
         return data
 
-# class InstanceData(object):
-#     """
-#     A bare-bones class to store the included properties of each instance. This is meant to act as easy access to the
-#     data, and provides a launching point for deriving your own features from the data.
-#     """
-#     def __init__(self, instance_properties):
+class InstanceData(object):
+    """
+    A bare-bones class to store the included properties of each instance. This is meant to act as easy access to the
+    data, and provides a launching point for deriving your own features from the data.
+    """
+    def __init__(self, instance_properties):
 
-#         # Parameters specific to this instance
-#         self.instance_id = instance_properties['instance_id']
-#         self.token = instance_properties['token']
-#         self.part_of_speech = instance_properties['part_of_speech']
-#         self.morphological_features = instance_properties['morphological_features']
-#         self.dependency_label = instance_properties['dependency_label']
-#         self.dependency_edge_head = instance_properties['dependency_edge_head']
+        # Parameters specific to this instance
+        self.instance_id = instance_properties['instance_id']
+        self.token = instance_properties['token']
+        self.part_of_speech = instance_properties['part_of_speech']
+        self.morphological_features = instance_properties['morphological_features']
+        self.dependency_label = instance_properties['dependency_label']
+        self.dependency_edge_head = instance_properties['dependency_edge_head']
 
-#         # Derived parameters specific to this instance
-#         self.exercise_index = int(self.instance_id[8:10])
-#         self.token_index = int(self.instance_id[10:12])
+        # Derived parameters specific to this instance
+        self.exercise_index = int(self.instance_id[8:10])
+        self.token_index = int(self.instance_id[10:12])
 
-#         # Derived parameters specific to this exercise
-#         self.exercise_id = self.instance_id[:10]
+        # Derived parameters specific to this exercise
+        self.exercise_id = self.instance_id[:10]
 
-#         # Parameters shared across the whole session
-#         self.user = instance_properties['user']
-#         self.countries = instance_properties['countries']
-#         self.days = instance_properties['days']
-#         self.client = instance_properties['client']
-#         self.session = instance_properties['session']
-#         self.format = instance_properties['format']
-#         self.time = instance_properties['time']
-#         self.prompt = instance_properties.get('prompt', None)
+        # Parameters shared across the whole session
+        self.user = instance_properties['user']
+        self.countries = instance_properties['countries']
+        self.days = instance_properties['days']
+        self.client = instance_properties['client']
+        self.session = instance_properties['session']
+        self.format = instance_properties['format']
+        self.time = instance_properties['time']
+        self.prompt = instance_properties.get('prompt', None)
 
-#         # Derived parameters shared across the whole session
-#         self.session_id = self.instance_id[:8]
+        # Derived parameters shared across the whole session
+        self.session_id = self.instance_id[:8]
 
-#     def to_features(self):
-#         """
-#         Prepares those features that we wish to use in the LogisticRegression example in this file. We introduce a bias,
-#         and take a few included features to use. Note that this dict restructures the corresponding features of the
-#         input dictionary, 'instance_properties'.
+    def to_features(self):
+        """
+        Prepares those features that we wish to use in the LogisticRegression example in this file. We introduce a bias,
+        and take a few included features to use. Note that this dict restructures the corresponding features of the
+        input dictionary, 'instance_properties'.
 
-#         Returns:
-#             to_return: a representation of the features we'll use for logistic regression in a dict. A key/feature is a
-#                 key/value pair of the original 'instance_properties' dict, and we encode this feature as 1.0 for 'hot'.
-#         """
-#         to_return = dict()
+        Returns:
+            to_return: a representation of the features we'll use for logistic regression in a dict. A key/feature is a
+                key/value pair of the original 'instance_properties' dict, and we encode this feature as 1.0 for 'hot'.
+        """
+        to_return = dict()
 
-#         to_return['bias'] = 1.0
-#         to_return['user:' + self.user] = 1.0
-#         to_return['format:' + self.format] = 1.0
-#         to_return['token:' + self.token.lower()] = 1.0
+        to_return['bias'] = 1.0
+        to_return['user:' + self.user] = 1.0
+        to_return['format:' + self.format] = 1.0
+        to_return['token:' + self.token.lower()] = 1.0
 
-#         to_return['part_of_speech:' + self.part_of_speech] = 1.0
-#         for morphological_feature in self.morphological_features:
-#             to_return['morphological_feature:' + morphological_feature] = 1.0
-#         to_return['dependency_label:' + self.dependency_label] = 1.0
+        to_return['part_of_speech:' + self.part_of_speech] = 1.0
+        for morphological_feature in self.morphological_features:
+            to_return['morphological_feature:' + morphological_feature] = 1.0
+        to_return['dependency_label:' + self.dependency_label] = 1.0
 
-#         return to_return
+        return to_return
+
+def extract_features(data, labels = None):
+    """
+    Do a mapping of each distinct feature to an unique index in a dictionaru
+    for vectorization.
+
+    Vectorization will transform the one-hot dictionary data into vectors according 
+    to the given mapping.
+
+    Parameters:
+        data: a list of InstanceData objects from that data type and track.
+        labels (optional): if using training data, a dict of instance_id:label pairs.
+    Return:
+        feature_matrix: a list of one-hot vectors (essentially a matrix)
+    """
+    feature_dict = dict()
+    count = 0
+    for instance_data in data:
+        for key in instance_data.to_features().keys():
+           if key not in feature_dict:
+               feature_dict[key] = count
+               count += 1
+
+    print("Total features: {}".format(len(feature_dict)))
+    

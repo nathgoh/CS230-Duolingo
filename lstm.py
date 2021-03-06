@@ -12,7 +12,7 @@ import os
 from random import shuffle, uniform
 
 
-from get_data import load_data
+from get_data import load_data, extract_features
 import numpy as np
 import tensorflow as tf
 
@@ -35,8 +35,8 @@ def main():
     training_data, training_labels = load_data(args.train)
     test_data = load_data(args.test)
 
-    # print(training_data[0])
-    # print()
+    
+    training_feature_dict = extract_features(training_data)
     # print(training_labels)
 
     # training_instances = [LSTM_Instance(features=instance_data.to_features(),
