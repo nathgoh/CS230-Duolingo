@@ -1,4 +1,9 @@
 import numpy as np
+import tensorflow as tf
+from tensorflow.keras import layers
+
+MAX_EMBED_SIZE = 64
+MIN_EMBED_SIZE = 16 
 
 def load_data(filename):
     """
@@ -163,9 +168,11 @@ def extract_features(data, labels = None):
         data: a list of InstanceData objects from that data type and track.
         labels (optional): if using training data, a dict of instance_id:label pairs.
     Return:
-        feature_matrix: concatenated embbeding matrix of all the distinct features 
-        that will be used as input for the LSTM.
+        feature_maxtrix: concatenated embedding matrix of all the distinct features 
+        that will be used as the input for the LSTM.
     """
+
+    # Mapping feature to an index
     feature_dict = dict()
     count = 0
     for instance_data in data:
@@ -174,6 +181,28 @@ def extract_features(data, labels = None):
                feature_dict[key] = count
                count += 1
 
-    print("Total features: {}".format(len(feature_dict)))
-    print(feature_dict)
+    feature_len = len(feature_dict.keys())
+    print("Total features: {}".format(feature_len))
     
+    # Creating embedding matrices for each feature
+    print("Building embedding matrix...")
+    users, formats, tokens = [], [], []
+    for key in feature_dict:
+        if "user:" in key:
+            users.append(feature_dict[key])
+        if "format:" in key:
+            formats.append(feature_dict[key])
+        if "token:" in key:
+            tokens.append(feature_dict[key])
+    
+    user_ids = tf.constant(users)
+    format_ids = tf.constant(formats)
+    token_ids = tf.constant(tokens)
+
+    user_embedding = layers.Embedding(layers.Input(shape = (feature_len,)), MAX_EMBED_SIZE)
+    format_embedding = layers.Embedding(layers.Input(shape = (feature_len,)), MAX_EMBED_SIZE)
+    token_embedding = layers.Embedding(layers.Input(shape = (feature_len,)), MAX_EMBED_SIZE)
+    
+    feature_matrix = [user_embedding, format_embedding, token_embedding]
+    print(feature_matrix)
+    feature_matrix_concat = layers.concatenate(feature_matrix, axis = 1)
