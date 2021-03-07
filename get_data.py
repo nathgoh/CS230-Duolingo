@@ -1,6 +1,6 @@
 import numpy as np
 import tensorflow as tf
-from tensorflow.keras import layers
+from tensorflow.keras.layers import Embedding, Input, Concatenate
 
 MAX_EMBED_SIZE = 64
 MIN_EMBED_SIZE = 16 
@@ -199,10 +199,12 @@ def extract_features(data, labels = None):
     format_ids = tf.constant(formats)
     token_ids = tf.constant(tokens)
 
-    user_embedding = layers.Embedding(layers.Input(shape = (feature_len,)), MAX_EMBED_SIZE)
-    format_embedding = layers.Embedding(layers.Input(shape = (feature_len,)), MAX_EMBED_SIZE)
-    token_embedding = layers.Embedding(layers.Input(shape = (feature_len,)), MAX_EMBED_SIZE)
-    
+    user_embedding = Embedding(Input(shape = (None,)), MAX_EMBED_SIZE, mask_zero=True)
+    format_embedding = Embedding(Input(shape = (None,)), MIN_EMBED_SIZE, mask_zero=True)
+    token_embedding = Embedding(Input(shape = (None,)), MAX_EMBED_SIZE, mask_zero=True)
+
+    print(user_embedding(user_ids))
+
     feature_matrix = [user_embedding, format_embedding, token_embedding]
     print(feature_matrix)
-    feature_matrix_concat = layers.concatenate(feature_matrix, axis = 1)
+    feature_matrix_concat = Concatenate()(feature_matrix)

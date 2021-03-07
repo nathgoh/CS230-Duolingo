@@ -1,9 +1,7 @@
 """
 Duolingo SLAM Shared Task - LSTM Model
 
-
 """
-
 import argparse
 from collections import defaultdict, namedtuple
 from io import open
@@ -11,10 +9,10 @@ import math
 import os
 from random import shuffle, uniform
 
-
 from get_data import load_data, extract_features
 import numpy as np
 import tensorflow as tf
+from tensorflow.keras import layers
 
 def main():
     parser = argparse.ArgumentParser(description='Duolingo shared task baseline model')
@@ -36,8 +34,11 @@ def main():
     test_data = load_data(args.test)
 
     print("Formatting train data...")    
-    training_feature_dict = extract_features(training_data)
+    extract_features(training_data)
 
     print("Formatting test data...")
+
+#def LSTM():
+
 if __name__ == '__main__':
     main()
