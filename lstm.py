@@ -3,7 +3,6 @@ Duolingo SLAM Shared Task - LSTM Model
 
 """
 import argparse
-from collections import defaultdict, namedtuple
 from io import open
 import math
 import os
