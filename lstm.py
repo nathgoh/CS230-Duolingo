@@ -36,6 +36,7 @@ def main():
     print("Formatting train data...")    
     extract_features(training_data)
 
+
     print("Formatting test data...")
 
 #def LSTM():
