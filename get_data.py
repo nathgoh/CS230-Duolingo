@@ -157,54 +157,16 @@ class InstanceData(object):
 
         return to_return
 
-def extract_features(data, labels = None):
-    """
-    Do a mapping of each distinct feature to an unique index in a dictionary.
-    The mapping for each feature is then used to create an embedding matrix for 
-    each said distinct feature. Each individual embedding matrix will be concatenated
-    together to create one large embedding matrix.
-
-    Parameters:
-        data: a list of InstanceData objects from that data type and track.
-        labels (optional): if using training data, a dict of instance_id:label pairs.
-    Return:
-        feature_maxtrix: concatenated embedding matrix of all the distinct features 
-        that will be used as the input for the LSTM.
-    """
-
+def extract_features(data):
     # Mapping feature to an index
     feature_dict = dict()
     count = 0
+
     for instance_data in data:
         for key in instance_data.to_features().keys():
            if key not in feature_dict:
                feature_dict[key] = count
                count += 1
-
     feature_len = len(feature_dict.keys())
-    print("Total features: {}".format(feature_len))
-    
-    # Creating embedding matrices for each feature
-    print("Building embedding matrix...")
-    users, formats, tokens = [], [], []
-    for key in feature_dict:
-        if "user:" in key:
-            users.append(feature_dict[key])
-        if "format:" in key:
-            formats.append(feature_dict[key])
-        if "token:" in key:
-            tokens.append(feature_dict[key])
-    
-    user_ids = tf.constant(users)
-    format_ids = tf.constant(formats)
-    token_ids = tf.constant(tokens)
 
-    user_embedding = Embedding(Input(shape = (None,)), MAX_EMBED_SIZE, mask_zero=True)
-    format_embedding = Embedding(Input(shape = (None,)), MIN_EMBED_SIZE, mask_zero=True)
-    token_embedding = Embedding(Input(shape = (None,)), MAX_EMBED_SIZE, mask_zero=True)
-
-    print(user_embedding(user_ids))
-
-    feature_matrix = [user_embedding, format_embedding, token_embedding]
-    print(feature_matrix)
-    feature_matrix_concat = Concatenate()(feature_matrix)
+    return feature_dict
