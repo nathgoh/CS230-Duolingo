@@ -20,11 +20,11 @@ def main():
     parser = argparse.ArgumentParser(description='Duolingo shared task baseline model')
     parser.add_argument('--train', help='Training file name', required=True)
     parser.add_argument('--test', help='Test file name, to make predictions on', required=True)
-    parser.add_argument('--pred', help='Output file name for predictions, defaults to test_name.pred')
+    # parser.add_argument('--pred', help='Output file name for predictions, defaults to test_name.pred')
     args = parser.parse_args()
 
-    if not args.pred:
-        args.pred = args.test + '.pred'
+    # if not args.pred:
+    #     args.pred = args.test + '.pred'
 
     assert os.path.isfile(args.train)
     assert os.path.isfile(args.test)
