@@ -8,6 +8,7 @@ data_fr_en/
 __pycache__/
 *.py[cod]
 *$py.class
+.vscode/
 
 # C extensions
 *.so
