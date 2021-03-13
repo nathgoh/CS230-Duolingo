@@ -13,9 +13,6 @@ import numpy as np
 import tensorflow as tf
 from tensorflow.keras import layers
 
-LARGE_EMBED_SIZE = 32
-SMALL_EMBED_SIZE = 16
-
 def main():
     parser = argparse.ArgumentParser(description='Duolingo shared task baseline model')
     parser.add_argument('--train', help='Training file name', required=True)

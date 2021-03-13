@@ -1,0 +1,13 @@
+1:I 2:am 3:a 4:boy
+5:user:1235
+6:format:translate
+
+for each feature, have separate dictionary
+
+[[1 5 6]
+ [2 5 6]
+ [3 5 6]
+ [4 5 6]]
+
+ X = # of exercise X max_sequence_length X # of features
+ Y = # of exercise X max_sequence_length X 1
