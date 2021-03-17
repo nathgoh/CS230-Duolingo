@@ -32,9 +32,9 @@ In order to run the any model and evaluate your predictions, perform the followi
 
 ## Setup - LSTM Model
 
-This LSTM model is written in Python. To run it, First run the get_data.ipynb and change the file destination for train, test, and key in `get_raw_dataset` for your chosen track. Similarly, change the save pickle file destination that is at the end of the notebook.
+This LSTM model is written in Python. To run it, First run the `get_data.ipynb` and change the file destination for train, test, and key in `get_raw_dataset` for your chosen track. Similarly, change the save pickle file destination that is at the end of the notebook.
 
-Begin training the model by running the build_model.ipynb.
+Begin training the model by running the `build_model.ipynb`.
 
 ## NOTE:
 Data obtained from http://sharedtask.duolingo.com/2018.html
