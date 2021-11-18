@@ -1,5 +1,5 @@
 # CS230: Duolingo SLAM Shared Task
-Developed a deep learning model predict students’ learning performance based on their past learning data. 
+Developed a deep learning model to predict students’ learning performance based on their past learning data. 
 
 Baseline model and evaluation script is provided from the archive for Duolingo's 2018 Shared Task on Second Language Acquisition Modeling (SLAM). The model is L2-regularized logistic regression, trained with SGD weighted by frequency.   
 
